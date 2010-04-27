@@ -1053,7 +1053,11 @@ var Dom = YAHOO.util.Dom,
                 doc = null;
 
             if (value === '') {
-                value = '<br>';
+                if (this.get('ptags')) {
+                  value = '<p></p>';
+                } else {
+                  value = '<br>';
+                }
             }
 
             var html = Lang.substitute(this.get('html'), {
@@ -4981,8 +4985,12 @@ var Dom = YAHOO.util.Dom,
 		    html = html.replace(/<p>(&nbsp;|&#160;)<\/p>/g, '<YUI_BR>');            
 		    html = html.replace(/<p><br>&nbsp;<\/p>/gi, '<YUI_BR>');
 		    html = html.replace(/<p>&nbsp;<\/p>/gi, '<YUI_BR>');
-            //Fix last BR
-	        html = html.replace(/<YUI_BR>$/, '');
+        html = html.replace(/^&nbsp;<YUI_BR>$/, '<YUI_BR>');
+            // don't remove the last break if it is the only break
+            if (!html.match(/^<YUI_BR>$/)) {
+              //Fix last BR
+              html = html.replace(/<YUI_BR>$/, '');
+            }
             //Fix last BR in P
 	        html = html.replace(/<YUI_BR><\/p>/g, '</p>');
             if (this.browser.ie) {

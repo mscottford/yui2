@@ -324,6 +324,7 @@ var Dom = YAHOO.util.Dom,
         
     });
 })();
+
 /**
  * @module editor
  * @description <p>Creates a rich Toolbar widget based on Button. Primarily used with the Rich Text Editor</p>
@@ -2162,6 +2163,7 @@ var Dom = YAHOO.util.Dom,
 * @type YAHOO.util.CustomEvent
 */
 })();
+
 /**
  * @module editor
  * @description <p>The Rich Text Editor is a UI control that replaces a standard HTML textarea; it allows for the rich formatting of text content, including common structural treatments like lists, formatting treatments like bold and italic text, and drag-and-drop inclusion and sizing of images. The Rich Text Editor's toolbar is extensible via a plugin architecture so that advanced implementations can achieve a high degree of customization.</p>
@@ -3217,7 +3219,11 @@ var Dom = YAHOO.util.Dom,
                 doc = null;
 
             if (value === '') {
-                value = '<br>';
+                if (this.get('ptags')) {
+                  value = '<p></p>';
+                } else {
+                  value = '<br>';
+                }
             }
 
             var html = Lang.substitute(this.get('html'), {
@@ -7145,8 +7151,12 @@ var Dom = YAHOO.util.Dom,
 		    html = html.replace(/<p>(&nbsp;|&#160;)<\/p>/g, '<YUI_BR>');            
 		    html = html.replace(/<p><br>&nbsp;<\/p>/gi, '<YUI_BR>');
 		    html = html.replace(/<p>&nbsp;<\/p>/gi, '<YUI_BR>');
-            //Fix last BR
-	        html = html.replace(/<YUI_BR>$/, '');
+        html = html.replace(/^&nbsp;<YUI_BR>$/, '<YUI_BR>');
+            // don't remove the last break if it is the only break
+            if (!html.match(/^<YUI_BR>$/)) {
+              //Fix last BR
+              html = html.replace(/<YUI_BR>$/, '');
+            }
             //Fix last BR in P
 	        html = html.replace(/<YUI_BR><\/p>/g, '</p>');
             if (this.browser.ie) {
@@ -7486,4 +7496,5 @@ YAHOO.widget.EditorInfo = {
 
     
 })();
+
 YAHOO.register("simpleeditor", YAHOO.widget.SimpleEditor, {version: "@VERSION@", build: "@BUILD@"});
