@@ -1,0 +1,67 @@
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="../../build/reset-fonts-grids/reset-fonts-grids.css"> 
+    <link type="text/css" rel="stylesheet" href="../../build/logger/assets/logger.css">
+    <link type="text/css" rel="stylesheet" href="../../build/yuitest/assets/testlogger.css">
+
+    <link rel="stylesheet" type="text/css" href="../../build/container/assets/skins/sam/container.css"> 
+    <link rel="stylesheet" type="text/css" href="../../build/menu/assets/skins/sam/menu.css"> 
+    <link rel="stylesheet" type="text/css" href="../../build/button/assets/skins/sam/button.css"> 
+    <link rel="stylesheet" type="text/css" href="../../build/resize/assets/skins/sam/resize.css"> 
+    <link rel="stylesheet" type="text/css" href="../../build/editor/assets/skins/sam/editor.css"> 
+
+    <script type="text/javascript" src="../../build/utilities/utilities.js"></script>
+    <script type="text/javascript" src="../../build/event-simulate/event-simulate-min.js"></script>
+    <script type="text/javascript" src="../../build/logger/logger-min.js"></script>
+    <script type="text/javascript" src="../../build/container/container_core-min.js"></script>
+    <script type="text/javascript" src="../../build/menu/menu-min.js"></script>
+    <script type="text/javascript" src="../../build/button/button-min.js"></script>
+    <script type="text/javascript" src="../../build/resize/resize-min.js"></script>
+    <script type="text/javascript" src="../../build/editor/editor.js"></script>
+    
+    <style type="text/css" media="screen">
+      #container {
+        margin-left: 30px;
+        margin-top: 30px;
+      }
+    </style>
+    
+    <script type="text/javascript" charset="utf-8">
+      var myEditor = new YAHOO.widget.Editor('page_part', {
+          height: '500px',
+          width: '700px',
+          ptags: true,
+          filterWord: true,
+          autoHeight: true,
+          markup: 'xhtml',
+          focusAtStart: true
+      });
+      myEditor.render();
+      
+      function preview() {
+        var html = myEditor.saveHTML();
+        var preview = YAHOO.util.Dom.get('contents_preview');
+        preview.innerText = '[html]' + html + '[/html]';
+      }
+      
+      myEditor.on('editorKeyUp', function(ev) {
+        preview();
+        return true;
+      });
+      
+      myEditor.on('contentReady', function() {
+        preview();
+      });
+      
+    </script>    
+  </head>
+  <body>
+    <div id="container" class="yui-skin-sam">
+      <textarea name="page_part" id="page_part">
+      </textarea>
+    </div>
+    
+    <div id="contents_preview">
+    </div>
+  </body>
+</html>
